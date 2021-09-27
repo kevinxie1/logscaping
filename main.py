@@ -4,7 +4,7 @@ from glob import glob
 import psycopg2
 import config
 from dbconnection import get_postgresql_connection, is_clob, fetch_table_count
-##
+#back at you#
 
 def scan_files_for_errors_recursively(path):
     result = [y for x in os.walk(path) for y in glob(os.path.join(x[0], '*.txt'))]
