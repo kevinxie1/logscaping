@@ -74,12 +74,12 @@ def create_sql_files(data, database):
         for line in data.splitlines():
             sql = re.findall('"([^"]*)"', line)
             table = sql[0]
-            if line[-1]:
-                sql_file2.write(f'''select count(*) from {table} ;''')
-            else:
-                sql_file2.write(f'''select count(*) from {table} 
-union all
-''')
+#             if line[-1]:
+#                 sql_file2.write(f'''select count(*) from {table} ;''')
+#             else:
+#                 sql_file2.write(f'''select count(*) from {table}
+# union all
+# ''')
             if len(sql) == 2:
                 column = sql[1]
                 sql_file.write(f'''alter table {table} add {column}_tmp varchar2({config.varchar_size});
@@ -110,13 +110,6 @@ union all
 
 
 if __name__ == '__main__':
-     errors = scan_files_for_errors_recursively(config.path_to_logs)
-     primary_keys = get_sql_errors(errors)
-     # create_sql_files(deduplicate(primary_keys), 'db1')
-     # fetch_table_count('db1')
-
-     for line in primary_keys.splitlines():
-        if line[-1]:
-            print("last")
-        else:
-            print('not last')
+    errors = scan_files_for_errors_recursively(config.path_to_logs)
+    primary_keys = get_sql_errors(errors)
+    create_sql_files(deduplicate(primary_keys), 'db1')
