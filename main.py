@@ -12,5 +12,5 @@ if __name__ == '__main__':
         fh.create_Primary_key_files(primary_keys, conf) # do not use in conjunction with adjustment file
         # derived from source database
         fh.create_sql_files(conf)  # use if first time correction
-        fh.create_adjust_column_size_file(conf)  # use if adjusting after first time correctio
+        fh.create_adjust_column_size_file(conf)  # use if adjusting after first time correction
         fh.create_count_file(conf)

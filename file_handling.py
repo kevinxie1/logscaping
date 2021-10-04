@@ -90,6 +90,7 @@ def create_adjust_column_size_file(database):
                     size = constraint[0].replace('CHECK ((length(', '').split(') <= ')[1][:-2]
                     sql_correction.write(
                         f'''alter table {table.upper()} alter column {column.upper()}_tmp varchar2({size});''')
+
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
@@ -152,7 +153,12 @@ def create_Primary_key_files(data, database):
         for line in data.splitlines():
             sql = re.findall('"([^"]*)"', line)
             table = sql[0]
-            primary_key_file.write(f'ALTER TABLE {table} ADD PRIMARY KEY ({",".join(sql[1:])});\n\n')
+            schema = config.connection[database]['schema']
+            constraints = get_constraints(conn, table, schema)
+            for constraint in constraints:
+                if constraint[0].startswith('PRIMARY'):
+
+                    primary_key_file.write(f'ALTER TABLE {table} ADD {constraint[0]};\n\n')
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
